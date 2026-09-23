@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+/* Design tokens. Components use utilities like bg-surface / text-muted / border-line. */
+@theme inline {
+  --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --color-bg: var(--bg);
+  --color-bg-glass: var(--bg-glass);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-solid: var(--solid);
+  --color-on-solid: var(--on-solid);
+}
+
+:root {
+  color-scheme: dark;
+  --bg: #060b18;
+  --bg-glass: rgba(6, 11, 24, 0.72);
+  --surface: #0c1426;
+  --surface-2: #121c34;
+  --line: rgba(148, 163, 184, 0.16);
+  --line-strong: rgba(148, 163, 184, 0.3);
+  --fg: #e8eef9;
+  --muted: #93a3bf;
+  --accent: #60a5fa;
+  --accent-2: #22d3ee;
+  --solid: #2563eb;
+  --on-solid: #ffffff;
+  --glow-rgb: 59 130 246;
+  --particle-rgb: 96, 165, 250;
+  --grid: rgba(96, 165, 250, 0.07);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f4f7fc;
+  --bg-glass: rgba(244, 247, 252, 0.78);
+  --surface: #ffffff;
+  --surface-2: #ecf1fa;
+  --line: rgba(15, 23, 42, 0.12);
+  --line-strong: rgba(15, 23, 42, 0.22);
+  --fg: #0b1226;
+  --muted: #4a5a78;
+  --accent: #1d4ed8;
+  --accent-2: #0e7490;
+  --solid: #1d4ed8;
+  --on-solid: #ffffff;
+  --glow-rgb: 37 99 235;
+  --particle-rgb: 29, 78, 216;
+  --grid: rgba(29, 78, 216, 0.07);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    scrollbar-gutter: stable;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  *,
+  ::before,
+  ::after {
+    border-color: var(--line);
+  }
+
+  ::selection {
+    background: rgb(var(--glow-rgb) / 0.35);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent-2);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Faint data grid that fades out toward the edges of the hero. */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 25%, transparent 78%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 25%, transparent 78%);
+}
+
+/* Light that follows the mouse; --mx / --my are set from Hero.tsx. */
+.hero-glow {
+  background: radial-gradient(520px circle at var(--mx, 72%) var(--my, 26%), rgb(var(--glow-rgb) / 0.16), transparent 65%);
+}
+
+.caret {
+  animation: caret-blink 1s steps(2, start) infinite;
+}
+
+@keyframes caret-blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  border-radius: 0.5rem;
+  background: var(--solid);
+  padding: 0.75rem 1rem;
+  color: var(--on-solid);
+  font-weight: 600;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
